@@ -1,0 +1,141 @@
+<html>
+<head>
+<title>MyIntentService.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(127,0,85); font-weight: bold; }
+.s1 { color: rgb(0,0,0); }
+.s2 { color: rgb(51,51,51); }
+.s3 { color: rgb(57,93,161); }
+.s4 { color: rgb(127,159,191); font-weight: bold; }
+.s5 { color: rgb(0,0,102); }
+.s6 { color: rgb(63,127,95); }
+.s7 { color: rgb(0,0,0); font-weight: bold; }
+.s8 { color: rgb(51,51,51); font-weight: bold; }
+</style>
+</head>
+<BODY BGCOLOR="#ffffff">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+MyIntentService.java</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">wearable</span><span class="s2">.</span><span class="s1">myintentservice</span><span class="s2">;</span><span class="s1"> 
+<a name="l2"><span class="ln">2    </span></a> 
+<a name="l3"><span class="ln">3    </span></a></span><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">IntentService</span><span class="s2">;</span><span class="s1"> 
+<a name="l4"><span class="ln">4    </span></a></span><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Intent</span><span class="s2">;</span><span class="s1"> 
+<a name="l5"><span class="ln">5    </span></a></span><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Context</span><span class="s2">;</span><span class="s1"> 
+<a name="l6"><span class="ln">6    </span></a></span><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">SystemClock</span><span class="s2">;</span><span class="s1"> 
+<a name="l7"><span class="ln">7    </span></a></span><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">format</span><span class="s2">.</span><span class="s1">DateFormat</span><span class="s2">;</span><span class="s1"> 
+<a name="l8"><span class="ln">8    </span></a></span><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Log</span><span class="s2">;</span><span class="s1"> 
+<a name="l9"><span class="ln">9    </span></a> 
+<a name="l10"><span class="ln">10   </span></a></span><span class="s3">/** 
+<a name="l11"><span class="ln">11   </span></a> * An {</span><span class="s4">@link </span><span class="s3">IntentService} subclass for handling asynchronous task requests in 
+<a name="l12"><span class="ln">12   </span></a> * a service on a separate handler thread. 
+<a name="l13"><span class="ln">13   </span></a> * </span><span class="s4">&lt;p/&gt;</span><span class="s3"> 
+<a name="l14"><span class="ln">14   </span></a> * TODO: Customize class - update intent actions, extra parameters and static 
+<a name="l15"><span class="ln">15   </span></a> * helper methods. 
+<a name="l16"><span class="ln">16   </span></a> */</span><span class="s1"> 
+<a name="l17"><span class="ln">17   </span></a></span><span class="s0">public class </span><span class="s1">MyIntentService </span><span class="s0">extends </span><span class="s1">IntentService </span><span class="s5">{</span><span class="s1"> 
+<a name="l18"><span class="ln">18   </span></a>    </span><span class="s0">private final static </span><span class="s1">String TAG </span><span class="s2">= </span><span class="s1">MyIntentService</span><span class="s2">.</span><span class="s0">class</span><span class="s2">.</span><span class="s1">getSimpleName</span><span class="s5">()</span><span class="s2">;</span><span class="s1"> 
+<a name="l19"><span class="ln">19   </span></a> 
+<a name="l20"><span class="ln">20   </span></a>    </span><span class="s6">// TODO: Rename actions, choose action names that describe tasks that this</span><span class="s1"> 
+<a name="l21"><span class="ln">21   </span></a>    </span><span class="s6">// IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS</span><span class="s1"> 
+<a name="l22"><span class="ln">22   </span></a>    </span><span class="s0">private static final </span><span class="s1">String ACTION_FOO </span><span class="s2">= </span><span class="s7">&quot;com.wearable.myintentservice.action.FOO&quot;</span><span class="s2">;</span><span class="s1"> 
+<a name="l23"><span class="ln">23   </span></a>    </span><span class="s0">private static final </span><span class="s1">String ACTION_BAZ </span><span class="s2">= </span><span class="s7">&quot;com.wearable.myintentservice.action.BAZ&quot;</span><span class="s2">;</span><span class="s1"> 
+<a name="l24"><span class="ln">24   </span></a> 
+<a name="l25"><span class="ln">25   </span></a>    </span><span class="s6">// TODO: Rename parameters</span><span class="s1"> 
+<a name="l26"><span class="ln">26   </span></a>    </span><span class="s0">private static final </span><span class="s1">String EXTRA_PARAM1 </span><span class="s2">= </span><span class="s7">&quot;com.wearable.myintentservice.extra.PARAM1&quot;</span><span class="s2">;</span><span class="s1"> 
+<a name="l27"><span class="ln">27   </span></a>    </span><span class="s0">private static final </span><span class="s1">String EXTRA_PARAM2 </span><span class="s2">= </span><span class="s7">&quot;com.wearable.myintentservice.extra.PARAM2&quot;</span><span class="s2">;</span><span class="s1"> 
+<a name="l28"><span class="ln">28   </span></a> 
+<a name="l29"><span class="ln">29   </span></a>    </span><span class="s0">public </span><span class="s1">MyIntentService</span><span class="s5">() {</span><span class="s1"> 
+<a name="l30"><span class="ln">30   </span></a>        </span><span class="s0">super</span><span class="s5">(</span><span class="s7">&quot;MyIntentService&quot;</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l31"><span class="ln">31   </span></a>    </span><span class="s5">}</span><span class="s1"> 
+<a name="l32"><span class="ln">32   </span></a> 
+<a name="l33"><span class="ln">33   </span></a>    </span><span class="s3">/** 
+<a name="l34"><span class="ln">34   </span></a>     * Starts this service to perform action Foo with the given parameters. If 
+<a name="l35"><span class="ln">35   </span></a>     * the service is already performing a task this action will be queued. 
+<a name="l36"><span class="ln">36   </span></a>     * 
+<a name="l37"><span class="ln">37   </span></a>     * </span><span class="s4">@see </span><span class="s3">IntentService 
+<a name="l38"><span class="ln">38   </span></a>     */</span><span class="s1"> 
+<a name="l39"><span class="ln">39   </span></a>    </span><span class="s6">// TODO: Customize helper method</span><span class="s1"> 
+<a name="l40"><span class="ln">40   </span></a>    </span><span class="s0">public static void </span><span class="s1">startActionFoo</span><span class="s5">(</span><span class="s1">Context context</span><span class="s2">, </span><span class="s1">String param1</span><span class="s2">, </span><span class="s1">String param2</span><span class="s5">) {</span><span class="s1"> 
+<a name="l41"><span class="ln">41   </span></a>        Log</span><span class="s2">.</span><span class="s1">v</span><span class="s5">(</span><span class="s1">TAG</span><span class="s2">, </span><span class="s7">&quot;startActionFoo()&quot;</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l42"><span class="ln">42   </span></a>        Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s5">(</span><span class="s1">context</span><span class="s2">, </span><span class="s1">MyIntentService</span><span class="s2">.</span><span class="s0">class</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l43"><span class="ln">43   </span></a>        intent</span><span class="s2">.</span><span class="s1">setAction</span><span class="s5">(</span><span class="s1">ACTION_FOO</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l44"><span class="ln">44   </span></a>        intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM1</span><span class="s2">, </span><span class="s1">param1</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l45"><span class="ln">45   </span></a>        intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM2</span><span class="s2">, </span><span class="s1">param2</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l46"><span class="ln">46   </span></a>        context</span><span class="s2">.</span><span class="s1">startService</span><span class="s5">(</span><span class="s1">intent</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l47"><span class="ln">47   </span></a>    </span><span class="s5">}</span><span class="s1"> 
+<a name="l48"><span class="ln">48   </span></a> 
+<a name="l49"><span class="ln">49   </span></a>    </span><span class="s3">/** 
+<a name="l50"><span class="ln">50   </span></a>     * Starts this service to perform action Baz with the given parameters. If 
+<a name="l51"><span class="ln">51   </span></a>     * the service is already performing a task this action will be queued. 
+<a name="l52"><span class="ln">52   </span></a>     * 
+<a name="l53"><span class="ln">53   </span></a>     * </span><span class="s4">@see </span><span class="s3">IntentService 
+<a name="l54"><span class="ln">54   </span></a>     */</span><span class="s1"> 
+<a name="l55"><span class="ln">55   </span></a>    </span><span class="s6">// TODO: Customize helper method</span><span class="s1"> 
+<a name="l56"><span class="ln">56   </span></a>    </span><span class="s0">public static void </span><span class="s1">startActionBaz</span><span class="s5">(</span><span class="s1">Context context</span><span class="s2">, </span><span class="s1">String param1</span><span class="s2">, </span><span class="s1">String param2</span><span class="s5">) {</span><span class="s1"> 
+<a name="l57"><span class="ln">57   </span></a>        Log</span><span class="s2">.</span><span class="s1">v</span><span class="s5">(</span><span class="s1">TAG</span><span class="s2">, </span><span class="s7">&quot;startActionBaz()&quot;</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l58"><span class="ln">58   </span></a>        Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s5">(</span><span class="s1">context</span><span class="s2">, </span><span class="s1">MyIntentService</span><span class="s2">.</span><span class="s0">class</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l59"><span class="ln">59   </span></a>        intent</span><span class="s2">.</span><span class="s1">setAction</span><span class="s5">(</span><span class="s1">ACTION_BAZ</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l60"><span class="ln">60   </span></a>        intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM1</span><span class="s2">, </span><span class="s1">param1</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l61"><span class="ln">61   </span></a>        intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM2</span><span class="s2">, </span><span class="s1">param2</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l62"><span class="ln">62   </span></a>        context</span><span class="s2">.</span><span class="s1">startService</span><span class="s5">(</span><span class="s1">intent</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l63"><span class="ln">63   </span></a>    </span><span class="s5">}</span><span class="s1"> 
+<a name="l64"><span class="ln">64   </span></a> 
+<a name="l65"><span class="ln">65   </span></a>    @Override 
+<a name="l66"><span class="ln">66   </span></a>    </span><span class="s0">protected void </span><span class="s1">onHandleIntent</span><span class="s5">(</span><span class="s1">Intent intent</span><span class="s5">) {</span><span class="s1"> 
+<a name="l67"><span class="ln">67   </span></a>        </span><span class="s0">if </span><span class="s5">(</span><span class="s1">intent </span><span class="s2">!= </span><span class="s0">null</span><span class="s5">) {</span><span class="s1"> 
+<a name="l68"><span class="ln">68   </span></a>            </span><span class="s0">final </span><span class="s1">String action </span><span class="s2">= </span><span class="s1">intent</span><span class="s2">.</span><span class="s1">getAction</span><span class="s5">()</span><span class="s2">;</span><span class="s1"> 
+<a name="l69"><span class="ln">69   </span></a>            </span><span class="s0">if </span><span class="s5">(</span><span class="s1">ACTION_FOO</span><span class="s2">.</span><span class="s1">equals</span><span class="s5">(</span><span class="s1">action</span><span class="s5">)) {</span><span class="s1"> 
+<a name="l70"><span class="ln">70   </span></a>                </span><span class="s0">final </span><span class="s1">String param1 </span><span class="s2">= </span><span class="s1">intent</span><span class="s2">.</span><span class="s1">getStringExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM1</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l71"><span class="ln">71   </span></a>                </span><span class="s0">final </span><span class="s1">String param2 </span><span class="s2">= </span><span class="s1">intent</span><span class="s2">.</span><span class="s1">getStringExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM2</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l72"><span class="ln">72   </span></a>                handleActionFoo</span><span class="s5">(</span><span class="s1">param1</span><span class="s2">, </span><span class="s1">param2</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l73"><span class="ln">73   </span></a>            </span><span class="s5">} </span><span class="s0">else if </span><span class="s5">(</span><span class="s1">ACTION_BAZ</span><span class="s2">.</span><span class="s1">equals</span><span class="s5">(</span><span class="s1">action</span><span class="s5">)) {</span><span class="s1"> 
+<a name="l74"><span class="ln">74   </span></a>                </span><span class="s0">final </span><span class="s1">String param1 </span><span class="s2">= </span><span class="s1">intent</span><span class="s2">.</span><span class="s1">getStringExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM1</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l75"><span class="ln">75   </span></a>                </span><span class="s0">final </span><span class="s1">String param2 </span><span class="s2">= </span><span class="s1">intent</span><span class="s2">.</span><span class="s1">getStringExtra</span><span class="s5">(</span><span class="s1">EXTRA_PARAM2</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l76"><span class="ln">76   </span></a>                handleActionBaz</span><span class="s5">(</span><span class="s1">param1</span><span class="s2">, </span><span class="s1">param2</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l77"><span class="ln">77   </span></a>            </span><span class="s5">}</span><span class="s1"> 
+<a name="l78"><span class="ln">78   </span></a>        </span><span class="s5">}</span><span class="s1"> 
+<a name="l79"><span class="ln">79   </span></a>    </span><span class="s5">}</span><span class="s1"> 
+<a name="l80"><span class="ln">80   </span></a> 
+<a name="l81"><span class="ln">81   </span></a>    </span><span class="s3">/** 
+<a name="l82"><span class="ln">82   </span></a>     * Handle action Foo in the provided background thread with the provided 
+<a name="l83"><span class="ln">83   </span></a>     * parameters. 
+<a name="l84"><span class="ln">84   </span></a>     */</span><span class="s1"> 
+<a name="l85"><span class="ln">85   </span></a>    </span><span class="s0">private void </span><span class="s1">handleActionFoo</span><span class="s5">(</span><span class="s1">String param1</span><span class="s2">, </span><span class="s1">String param2</span><span class="s5">) {</span><span class="s1"> 
+<a name="l86"><span class="ln">86   </span></a>        Log</span><span class="s2">.</span><span class="s1">v</span><span class="s5">(</span><span class="s1">TAG</span><span class="s2">, </span><span class="s7">&quot;handleActionFoo()&quot;</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l87"><span class="ln">87   </span></a>        SystemClock</span><span class="s2">.</span><span class="s1">sleep</span><span class="s5">(</span><span class="s8">1000</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l88"><span class="ln">88   </span></a>        String result </span><span class="s2">= </span><span class="s1">param1 </span><span class="s2">+ </span><span class="s7">&quot; &lt;&lt;&quot; </span><span class="s2">+</span><span class="s1"> 
+<a name="l89"><span class="ln">89   </span></a>                DateFormat</span><span class="s2">.</span><span class="s1">format</span><span class="s5">(</span><span class="s7">&quot;MM/dd/yy h:mmaa&quot;</span><span class="s2">, </span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s5">())</span><span class="s1"> 
+<a name="l90"><span class="ln">90   </span></a>                </span><span class="s2">+ </span><span class="s7">&quot;&gt;&gt; &quot; </span><span class="s2">+ </span><span class="s1">param2</span><span class="s2">;</span><span class="s1"> 
+<a name="l91"><span class="ln">91   </span></a> 
+<a name="l92"><span class="ln">92   </span></a>        Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s5">()</span><span class="s2">;</span><span class="s1"> 
+<a name="l93"><span class="ln">93   </span></a>        intent</span><span class="s2">.</span><span class="s1">setAction</span><span class="s5">(</span><span class="s1">MainActivity</span><span class="s2">.</span><span class="s1">ACTION_BROADCAST_FOO</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l94"><span class="ln">94   </span></a>        intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s5">(</span><span class="s7">&quot;foo_out&quot;</span><span class="s2">, </span><span class="s1">result</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l95"><span class="ln">95   </span></a>        sendBroadcast</span><span class="s5">(</span><span class="s1">intent</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l96"><span class="ln">96   </span></a>    </span><span class="s5">}</span><span class="s1"> 
+<a name="l97"><span class="ln">97   </span></a> 
+<a name="l98"><span class="ln">98   </span></a>    </span><span class="s3">/** 
+<a name="l99"><span class="ln">99   </span></a>     * Handle action Baz in the provided background thread with the provided 
+<a name="l100"><span class="ln">100  </span></a>     * parameters. 
+<a name="l101"><span class="ln">101  </span></a>     */</span><span class="s1"> 
+<a name="l102"><span class="ln">102  </span></a>    </span><span class="s0">private void </span><span class="s1">handleActionBaz</span><span class="s5">(</span><span class="s1">String param1</span><span class="s2">, </span><span class="s1">String param2</span><span class="s5">) {</span><span class="s1"> 
+<a name="l103"><span class="ln">103  </span></a>        Log</span><span class="s2">.</span><span class="s1">v</span><span class="s5">(</span><span class="s1">TAG</span><span class="s2">, </span><span class="s7">&quot;handleActionBaz()&quot;</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l104"><span class="ln">104  </span></a>        SystemClock</span><span class="s2">.</span><span class="s1">sleep</span><span class="s5">(</span><span class="s8">5000</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l105"><span class="ln">105  </span></a>        String result </span><span class="s2">= </span><span class="s1">param1 </span><span class="s2">+ </span><span class="s7">&quot; &lt;&lt;&quot; </span><span class="s2">+</span><span class="s1"> 
+<a name="l106"><span class="ln">106  </span></a>                DateFormat</span><span class="s2">.</span><span class="s1">format</span><span class="s5">(</span><span class="s7">&quot;MM/dd/yy h:mmaa&quot;</span><span class="s2">, </span><span class="s1">System</span><span class="s2">.</span><span class="s1">currentTimeMillis</span><span class="s5">())</span><span class="s1"> 
+<a name="l107"><span class="ln">107  </span></a>                </span><span class="s2">+ </span><span class="s7">&quot;&gt;&gt; &quot; </span><span class="s2">+ </span><span class="s1">param2</span><span class="s2">;</span><span class="s1"> 
+<a name="l108"><span class="ln">108  </span></a> 
+<a name="l109"><span class="ln">109  </span></a>        Intent intent </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Intent</span><span class="s5">()</span><span class="s2">;</span><span class="s1"> 
+<a name="l110"><span class="ln">110  </span></a>        intent</span><span class="s2">.</span><span class="s1">setAction</span><span class="s5">(</span><span class="s1">MainActivity</span><span class="s2">.</span><span class="s1">ACTION_BROADCAST_BAZ</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l111"><span class="ln">111  </span></a>        intent</span><span class="s2">.</span><span class="s1">putExtra</span><span class="s5">(</span><span class="s7">&quot;baz_out&quot;</span><span class="s2">, </span><span class="s1">result</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l112"><span class="ln">112  </span></a>        sendBroadcast</span><span class="s5">(</span><span class="s1">intent</span><span class="s5">)</span><span class="s2">;</span><span class="s1"> 
+<a name="l113"><span class="ln">113  </span></a>    </span><span class="s5">}</span><span class="s1"> 
+<a name="l114"><span class="ln">114  </span></a></span><span class="s5">}</span><span class="s1"> 
+<a name="l115"><span class="ln">115  </span></a></span></pre>
+</body>
+</html>
